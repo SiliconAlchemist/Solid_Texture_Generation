@@ -64,3 +64,6 @@ bool load_texture( const char *file_name, GLuint *tex );  // load texture functi
 GLFWwindow* setupWindow(int, int);
 
 void setVAO(unsigned int &);
+
+int best_neighborhood(int x_min, int x_max, int y_min, int y_max, int z_min, int z_max,int n_win);
+int energy_diff(unsigned char* curr, unsigned char* exemp);

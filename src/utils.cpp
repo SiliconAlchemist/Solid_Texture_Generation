@@ -3,11 +3,16 @@
 #include "stb_image.h"
 #define GL_TEXTURE_MAX_ANISOTROPY_EXT 0x84FE
 #include<iostream>
+#include<math.h>
+#include<limits.h>
+
+unsigned char* arr[100][100][100];
 
 bool load_texture( const char *file_name, GLuint *tex ) {
 
-    std::cout<<"Load texture is called.";
+    std::cout<<"Load texture is called.\n";
     int x, y, z, n;
+    int n_win=5;
     int force_channels = 4;
     unsigned char *image_data = stbi_load( file_name, &x, &y, &n, force_channels );
     if ( !image_data ) {
@@ -45,7 +50,7 @@ bool load_texture( const char *file_name, GLuint *tex ) {
 
     //creating a 3d texture data from the 2d image 
 
-    std::cout<<"Reaching here.";
+    std::cout<<"Synthesizing an unoptimised 3D texture";
 
     std::vector<unsigned char *> image_data3d_vec;
 
@@ -60,6 +65,9 @@ bool load_texture( const char *file_name, GLuint *tex ) {
         }
         
     }
+
+    std::cout<<"Searching for a better neighbourhood";
+
 
     unsigned char** image_data3d= &image_data3d_vec[0];
 
@@ -76,7 +84,86 @@ bool load_texture( const char *file_name, GLuint *tex ) {
     glGetFloatv( GL_TEXTURE_MAX_ANISOTROPY_EXT, &max_aniso );
     // set the maximum!
     glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, max_aniso );
+
+    unsigned char* arr[width_in_bytes][y][z];
+    
+    unsigned char** ptr= image_data3d;
+
+    for(int k=0;k<z;k++){
+        for(int j=0;j<y;j++){
+            for(int i=0;i<width_in_bytes;i++){
+                arr[i][j][k]= *ptr;
+                ptr++;
+            }
+        }
+    }
+
+    for(int k=0;k<z;k++){
+        for(int j=0;j<y;j++){
+            for(int i=0;i<width_in_bytes;i++){
+
+                int e1,e2,e3;
+                
+                //passing the neighbourhood of this texel
+                int x_min= std::max(0,i-n_win);
+                int x_max= std::min(width_in_bytes, i+n_win);
+                
+                int y_min= std::max(0,j-n_win);
+                int y_max= std::min(y, j+n_win);
+
+                int z_min=k;
+                int z_max=k;
+
+                e1=best_neighborhood(x_min,x_max,y_min,y_max,z_min,z_max,n_win);
+
+                x_min= i;
+                x_max= i;
+                
+                y_min= std::max(0,j-n_win);
+                y_max= std::min(y, j+n_win);
+
+                z_min=std::max(0,j-n_win);
+                z_max=std::min(z, k+n_win);
+
+                e2=best_neighborhood(x_min,x_max ,y_min,y_max,z_min,z_max,n_win);
+
+                x_min= std::max(0,i-n_win);
+                x_max= std::min(width_in_bytes, i+n_win);
+                
+                y_min= j;
+                y_max= j;
+
+                z_min=std::max(0,j-n_win);
+                z_max=std::min(z, k+n_win);
+
+                e3=best_neighborhood(x_min,x_max,y_min,y_max,z_min,z_max,n_win);
+
+                //*arr[i][j][k]= (char)((e1+e2+e3)/3); 
+            }
+        }
+    }
+
+
     return true;
+}
+
+int best_neighborhood(int x_min, int x_max, int y_min, int y_max, int z_min, int z_max,int n_win){
+    
+    int energy_curr=1000000;
+
+    /* for(int i=0; i<n_win; i++){
+        for(int j=0; j<n_win; j++){
+
+        }
+    } */
+
+    return energy_curr;
+}
+
+int energy_diff(unsigned char* curr, unsigned char* exemp){
+
+    int diff= pow((int)*curr - (int)* exemp,2);
+    return diff;
 }
 
 void cleanup(GLFWwindow* window){
