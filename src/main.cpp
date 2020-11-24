@@ -48,7 +48,7 @@ int main(int, char**)
     }
 
    
-/////////////////////// Create Sphere
+    /////////////////////// Create an Object
 
     GLuint sphere_VAO, indices_IBO;
     int nTheta = 180/DELTA_ANGLE + 1;
