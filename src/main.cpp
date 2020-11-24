@@ -25,7 +25,7 @@ int main(int, char**)
     // ##################
     GLuint tex;
 
-    if (load_texture("./2d_exemplar.jpeg", &tex)){
+    if (load_texture("./wood.jpeg", &tex)){
         std::cout << "texture loaded successfully !!!!" << std::endl;
     }
 
@@ -59,7 +59,7 @@ int main(int, char**)
     float *uv = new float[nTheta*nPhi*2];
     // float *v = new float[nTheta*nPhi];
     float theta, phi, x, y, z;
-    float radius = 0.5f;
+    float radius = 0.7f;
     for (int j = 0; j<nTheta; j++)
         for(int i=0; i<nPhi; i++)
         {
@@ -136,8 +136,8 @@ int main(int, char**)
         std::cout << "vt found at location " << vt << std::endl;
     }
     glBindBuffer(GL_ARRAY_BUFFER, tex_VBO);
-    glBufferData(GL_ARRAY_BUFFER, nPhi*nTheta*2*sizeof(float), uv, GL_STATIC_DRAW);
-    glVertexAttribPointer(vt, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    glBufferData(GL_ARRAY_BUFFER, nPhi*nTheta*3*sizeof(float), vertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(vt, 3, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(vt);
 
     float angle = 0.0f;
