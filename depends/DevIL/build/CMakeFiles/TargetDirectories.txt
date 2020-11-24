@@ -1,0 +1,13 @@
+/home/thor/Progs/imgui_test/Assignments/Assiignment3/depends/DevIL/build/CMakeFiles/install/strip.dir
+/home/thor/Progs/imgui_test/Assignments/Assiignment3/depends/DevIL/build/CMakeFiles/install.dir
+/home/thor/Progs/imgui_test/Assignments/Assiignment3/depends/DevIL/build/CMakeFiles/install/local.dir
+/home/thor/Progs/imgui_test/Assignments/Assiignment3/depends/DevIL/build/CMakeFiles/list_install_components.dir
+/home/thor/Progs/imgui_test/Assignments/Assiignment3/depends/DevIL/build/CMakeFiles/edit_cache.dir
+/home/thor/Progs/imgui_test/Assignments/Assiignment3/depends/DevIL/build/CMakeFiles/rebuild_cache.dir
+/home/thor/Progs/imgui_test/Assignments/Assiignment3/depends/DevIL/build/src-IL/CMakeFiles/install/strip.dir
+/home/thor/Progs/imgui_test/Assignments/Assiignment3/depends/DevIL/build/src-IL/CMakeFiles/edit_cache.dir
+/home/thor/Progs/imgui_test/Assignments/Assiignment3/depends/DevIL/build/src-IL/CMakeFiles/IL.dir
+/home/thor/Progs/imgui_test/Assignments/Assiignment3/depends/DevIL/build/src-IL/CMakeFiles/install.dir
+/home/thor/Progs/imgui_test/Assignments/Assiignment3/depends/DevIL/build/src-IL/CMakeFiles/rebuild_cache.dir
+/home/thor/Progs/imgui_test/Assignments/Assiignment3/depends/DevIL/build/src-IL/CMakeFiles/list_install_components.dir
+/home/thor/Progs/imgui_test/Assignments/Assiignment3/depends/DevIL/build/src-IL/CMakeFiles/install/local.dir
