@@ -2,8 +2,11 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #define GL_TEXTURE_MAX_ANISOTROPY_EXT 0x84FE
+#include<iostream>
 
 bool load_texture( const char *file_name, GLuint *tex ) {
+
+    std::cout<<"Load texture is called.";
     int x, y, z, n;
     int force_channels = 4;
     unsigned char *image_data = stbi_load( file_name, &x, &y, &n, force_channels );
@@ -18,7 +21,7 @@ bool load_texture( const char *file_name, GLuint *tex ) {
     }
 
     //using z=x for the time being. To de give more thought later.
-    z=x;
+    z=y;
 
     int width_in_bytes = x * 4;
     unsigned char *top = NULL;
@@ -39,28 +42,36 @@ bool load_texture( const char *file_name, GLuint *tex ) {
         }
     }
 
-    unsigned char *image_data3d= malloc();
+
+    //creating a 3d texture data from the 2d image 
+
+    std::cout<<"Reaching here.";
+
     std::vector<unsigned char *> image_data3d_vec;
 
-    unsigned char
+    unsigned char *pex;
+    unsigned char *vox;
     for(int depth = 0; depth < z; depth++){
-        for(int row = 0; row < x; row ++){
-            
+        for(int rc = 0; rc < y*width_in_bytes; rc++){
+            pex= image_data + rc;
+            unsigned char data=*pex;
+            vox=&data; 
+            image_data3d_vec.push_back(vox);
         }
+        
     }
 
-
+    unsigned char** image_data3d= &image_data3d_vec[0];
 
     glGenTextures( 1, tex );
     glActiveTexture( GL_TEXTURE0 );
-    glBindTexture( GL_TEXTURE_2D, *tex );
-    glTexImage3D( GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE,
-                                image_data );
-    glGenerateMipmap( GL_TEXTURE_2D );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
+    glBindTexture( GL_TEXTURE_3D, *tex );
+    glTexImage3D( GL_TEXTURE_3D, 0, GL_RGBA, x, y, z, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data3d);
+    glGenerateMipmap( GL_TEXTURE_3D );
+    glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+    glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT );
+    glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
     GLfloat max_aniso = 0.0f;
     glGetFloatv( GL_TEXTURE_MAX_ANISOTROPY_EXT, &max_aniso );
     // set the maximum!

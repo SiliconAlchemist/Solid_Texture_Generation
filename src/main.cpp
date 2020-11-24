@@ -25,7 +25,7 @@ int main(int, char**)
     // ##################
     GLuint tex;
 
-    if (load_texture("./earthmap1k.jpg", &tex)){
+    if (load_texture("./2d_exemplar.jpeg", &tex)){
         std::cout << "texture loaded successfully !!!!" << std::endl;
     }
 
@@ -48,7 +48,7 @@ int main(int, char**)
     }
 
    
-    /////////////////////// Create an Object
+/////////////////////// Create Sphere
 
     GLuint sphere_VAO, indices_IBO;
     int nTheta = 180/DELTA_ANGLE + 1;
@@ -123,12 +123,11 @@ int main(int, char**)
             uv[(i+j*nPhi)*2+0] = ((phi))/(2*M_PI);
             uv[(i+j*nPhi)*2+1] = 1-(theta/M_PI);
 
-            std::cout<<"theta: "<<theta<<" phi: "<<phi<<" and in deg:"<<float(i*DELTA_ANGLE)<<" u: "<<uv[(i+j*nPhi)*2+0]<<" v: "<<uv[(i+j*nPhi)*2+1]<<std::endl;
+            //std::cout<<"theta: "<<theta<<" phi: "<<phi<<" and in deg:"<<float(i*DELTA_ANGLE)<<" u: "<<uv[(i+j*nPhi)*2+0]<<" v: "<<uv[(i+j*nPhi)*2+1]<<std::endl;
         }
 
     GLuint tex_VBO; //bind texture buffer
     glGenBuffers(1, &tex_VBO);
-
     int vt = glGetAttribLocation(shaderProgram, "vt");
     if(vt == -1) {
         std::cout << "Could not bind location: vt\n" ;
@@ -136,8 +135,6 @@ int main(int, char**)
     }else{
         std::cout << "vt found at location " << vt << std::endl;
     }
-
-
     glBindBuffer(GL_ARRAY_BUFFER, tex_VBO);
     glBufferData(GL_ARRAY_BUFFER, nPhi*nTheta*2*sizeof(float), uv, GL_STATIC_DRAW);
     glVertexAttribPointer(vt, 2, GL_FLOAT, GL_FALSE, 0, 0);

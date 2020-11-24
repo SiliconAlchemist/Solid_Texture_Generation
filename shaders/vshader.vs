@@ -1,12 +1,12 @@
 #version 330 core
 layout (location = 0) in vec3 vVertex;
-layout (location = 1) in vec2 vt;
+layout (location = 1) in vec3 vt;
 
 uniform mat4 vModel;
 uniform mat4 vView;
 uniform mat4 vProjection;
 
-out vec2 texture_coordinates;
+out vec3 texture_coordinates;
 
 
 void main()
